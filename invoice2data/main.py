@@ -12,7 +12,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-FILENAME = "{date} {desc}.pdf"
+FILENAME = "{ref} {type} {acc} PROCESSED.pdf"
 
 def extract_data(invoicefile, templates=None, debug=False):
     if templates is None:
@@ -56,6 +56,9 @@ def main():
                         default=pkg_resources.resource_filename('invoice2data', 'templates'),
                         help='Folder containing invoice templates in yml file. Required.')
 
+    parser.add_argument('--output-folder', '-o', dest='output_folder', default='.',
+                        help='Folder to place output csv file.')
+
     parser.add_argument('input_files', type=argparse.FileType('r'), nargs='+',
                         help='File or directory to analyze.')
 
@@ -75,10 +78,11 @@ def main():
             output.append(res)
             if args.copy:
                 filename = FILENAME.format(
-                    date=res['date'].strftime('%Y-%m-%d'),
-                    desc=res['desc'])
+                    ref=res['invoice_number'],
+                    type=res['transaction_type'],
+                    acc=res['account'])
                 shutil.copyfile(f.name, join(args.copy, filename))
-    invoices_to_csv(output, 'invoices-output.csv')
+    invoices_to_csv(output, join(args.output_folder, 'invoices-output.csv'))
 
 if __name__ == '__main__':
     main()

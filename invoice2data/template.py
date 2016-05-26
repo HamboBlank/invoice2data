@@ -14,6 +14,11 @@ OPTIONS_DEFAULT = {
     'languages': [],
     'decimal_separator': '.',
     'replace': [],  # example: see templates/fr/fr.free.mobile.yml
+    'account': False,
+    'tax_code': 'T0',
+    'amount_net_tax': 0.00,
+    'transaction_type': 'PI',
+    'nom_ac_reference': 5000
 }
 
 def read_templates(folder):
@@ -153,6 +158,11 @@ class InvoiceTemplate(dict):
                     logger.warning("regexp for field %s didn't match", k)
 
         output['currency'] = self.options['currency']
+        output['tax_code'] = self.options['tax_code']
+        output['account'] = self.options['account']
+	output['amount_net_tax'] = self.options['amount_net_tax']
+        output['transaction_type'] = self.options['transaction_type']
+        output['nom_ac_reference'] = self.options['nom_ac_reference']
 
         if len(output.keys()) >= 4:
             output['desc'] = 'Invoice %s from %s' % (
@@ -176,3 +186,4 @@ def dict_to_yml(dict_in, identifier):
 if __name__ == '__main__':
     for t in templates:
         dict_to_yml(t, t['keywords'][0].lower().replace(' ', ''))
+
