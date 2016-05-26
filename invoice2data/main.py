@@ -9,6 +9,7 @@ import invoice2data.pdftotext as pdftotext
 from invoice2data.template import read_templates
 from invoice2data.output import invoices_to_csv
 import logging
+from time import time
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +83,9 @@ def main():
                     type=res['transaction_type'],
                     acc=res['account'])
                 shutil.copyfile(f.name, join(args.copy, filename))
-    invoices_to_csv(output, join(args.output_folder, 'invoices-output.csv'))
+    output_name = join(args.output_folder, 'invoices-output-{0}.csv'.format(time()))
+    invoices_to_csv(output, output_name)
 
 if __name__ == '__main__':
     main()
+
