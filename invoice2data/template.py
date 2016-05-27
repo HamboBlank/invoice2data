@@ -160,7 +160,8 @@ class InvoiceTemplate(dict):
         output['currency'] = self.options['currency']
         output['tax_code'] = self.options['tax_code']
         output['account'] = self.options['account']
-        output['amount_net_tax'] = self.options['amount_net_tax']
+        if 'amount_net_tax' not in output:
+            output['amount_net_tax'] = self.options['amount_net_tax']
         output['transaction_type'] = self.options['transaction_type']
         output['nom_ac_reference'] = self.options['nom_ac_reference']
 
