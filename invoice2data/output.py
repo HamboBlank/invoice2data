@@ -6,7 +6,7 @@ def invoices_to_csv(data, path):
     with open(path, "w") as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
 
-        writer.writerow(['Type', 'Account Reference', 'Nom A/C Reference', 'Reference', 'Date', 'Tax Amount', 'Tax Code', 'Net Amount'])
+        writer.writerow(['Type', 'Account Reference', 'Nominal A/C Ref', 'Reference', 'Date', 'Tax Amount', 'Tax Code', 'Net Amount'])
         for line in data:
             writer.writerow([
                 line['transaction_type'],
